@@ -1,6 +1,6 @@
 node{
    stage('SCM Checkout'){
-       git credentialsId: 'git-creds', url: 'https://github.com/abdelrazekrizk/my_app'
+       git credentialsId: 'git-creds', url: 'https://github.com/abdelrazekrizk/my-app-1'
    }
    stage('Mvn Package'){
      def mvnHome = tool name: 'Maven', type: 'maven'
@@ -11,7 +11,7 @@ node{
      sh 'docker build -t abdelrazekrizk/my-app:1.0.0 .'
    }
    stage('Push Docker Image'){
-     withCredentials([string(credentialsId: 'docker-pw', variable: 'dockerHubPwd')]) {
+     withCredentials([string(credentialsId: 'docker-pwd', variable: 'dockerHubPwd')]) {
         sh "docker login -u abdelrazekrizk -p ${dockerHubPwd}"
      }
      sh 'docker push abdelrazekrizk/my-app:1.0.0'
