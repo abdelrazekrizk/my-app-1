@@ -2,11 +2,6 @@ node{
    stage('SCM Checkout') {
        git branch: 'main', credentialsId: 'Git_Credentials', url: 'https://github.com/abdelrazekrizk/my-app-1'
    }
-   stage('Mvn Package') {
-     def mvnHome = tool name: 'Maven', type: 'maven'
-     def mvnCMD = "${mvnHome}/bin/"
-     sh "${mvnCMD} clean package"
-   }
    stage('Build Docker Image') {
      sh 'docker build -t abdelrazekrizk/my-app:1.0.0 .'
    }
