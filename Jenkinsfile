@@ -1,6 +1,6 @@
 node{
    stage('SCM Checkout'){
-       git credentialsId: 'Git-Pwd', url: 'https://github.com/abdelrazekrizk/my-app-1'
+       git credentialsId: 'Git-Pwd', url: 'https://github.com/abdelrazekrizk/my-app-1.git'
    }
    stage('Mvn Package'){
      def mvnHome = tool name: 'Maven', type: 'maven'
@@ -17,12 +17,12 @@ node{
      sh 'docker push abdelrazekrizk/my-app:1.0.0'
    }
    stage('Run Container on Dev Server'){
-     def dockerRun = 'docker run --rm -p 8080:8080 -d --name my-app abdelrazekrizk/my-app:1.0.0'
+     def dockerRun = 'docker run --rm -p 8081:8081 -d --name my-app abdelrazekrizk/my-app:1.0.0'
      sshagent(['dev-server']) {
-       sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.80.219 ${dockerRun}"
+       sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.80.131 ${dockerRun}"
      }
    }
    stage('Run kubectl on Dev Server'){
       sh 'kubectl create -f ./deployment.yaml'
-     }
+   }
 }
