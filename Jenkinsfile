@@ -15,6 +15,8 @@ node{
         sh 'docker run -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0'
    }
    stage('Run kubectl Container on Dev Server') {
+     kubeconfig(credentialsId: 'Kubernetes_Credentials', serverUrl: 'https://192.168.49.2:8443') {
+   }
         sh 'kubectl apply -f ./deployment.yaml'
    }
 }
