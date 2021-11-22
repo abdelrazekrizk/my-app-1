@@ -35,6 +35,6 @@ spec:
     imagePullPolicy: IfNotPresent
     args:
     # Address for the app to listen on
-    - localhost:8080
+    - localhost:8989
     ports:
     - containerPort: 9000
