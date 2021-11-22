@@ -11,16 +11,16 @@ node{
      }
      sh 'docker push abdelrazekrizk/tomcat-my-app:1.0.0'
    }
-   stage('Run Container on Dev Server') {
+   stage('Run docker Container on Dev Server') {
      def dockerRun = 'docker run --rm -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0'
      sshagent(['SSH_Jenkins']) {
        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.90.24 ${dockerRun}"
      }
    }
-   stage('Run kubectl on Dev Server') {
-     sshagent(['SSH_Jenkins']) {
-       sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.90.24 ${dockerRun}"
-       sh 'kubectl create -f ./deployment.yaml'
+   stage('Run kubectl Container on Dev Server') {
+       def kubectlRun = 'kubectl apply -f ./deployment.yaml'
+       sshagent(['SSH_Jenkins']) {
+       sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.90.24 ${kubectlRun}"
      } 
    }
 }
