@@ -11,4 +11,4 @@ EXPOSE 8080
 ## Step 5:
 # Run web app at container launch
 
-CMD ["chmod +x /usr/local/tomcat/bin/catalina.sh", "catalina.sh", "run"]
+CMD ["catalina.sh", "run"]

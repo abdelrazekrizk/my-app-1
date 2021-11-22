@@ -12,7 +12,7 @@ node{
         sh 'docker push abdelrazekrizk/tomcat-my-app:1.0.0'
    }
    stage('Run docker Container on Dev Server') {
-        sh 'docker run --rm -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0'
+        sh 'docker run -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0'
    }
    stage('Run kubectl Container on Dev Server') {
         sh 'kubectl apply -f ./deployment.yaml'
