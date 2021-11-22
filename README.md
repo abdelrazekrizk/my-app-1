@@ -34,7 +34,7 @@ Enable kubectl bash_completion
         openjdk version "1.8.0_292"
         OpenJDK Runtime Environment (build 1.8.0_292-8u292-b10-0ubuntu1~20.04-b10)
         OpenJDK 64-Bit Server VM (build 25.292-b10, mixed mode)
-        
+
         sudo apt install openjdk-11-jdk -y
 
         java -version
