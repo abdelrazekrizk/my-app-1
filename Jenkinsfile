@@ -17,6 +17,7 @@ node{
    stage('Run kubectl Container on Dev Server') {
      kubeconfig(credentialsId: 'Kubernetes_Credentials', serverUrl: 'https://192.168.49.2:8443') {
    }
-        sh 'kubectl apply -f ./deployment.yaml'
+        sh 'kubectl apply -f ./Deployment.yaml'
+        sh 'kubectl apply -f ./Service.yaml'
    }
 }

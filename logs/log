@@ -1,0 +1,128 @@
+Started by user Jenkins
+Obtained Jenkinsfile from git https://github.com/abdelrazekrizk/my-app-1
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/my-app-1
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (SCM Checkout)
+[Pipeline] git
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential Git_Credentials
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/workspace/my-app-1/.git # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/abdelrazekrizk/my-app-1 # timeout=10
+Fetching upstream changes from https://github.com/abdelrazekrizk/my-app-1
+ > git --version # timeout=10
+ > git --version # 'git version 2.25.1'
+using GIT_ASKPASS to set credentials Git_Credentials
+ > git fetch --tags --force --progress -- https://github.com/abdelrazekrizk/my-app-1 +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
+Checking out Revision 8cb50e2356aef6ae542fc0fd6656f501c9067747 (refs/remotes/origin/main)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 8cb50e2356aef6ae542fc0fd6656f501c9067747 # timeout=10
+ > git branch -a -v --no-abbrev # timeout=10
+ > git branch -D main # timeout=10
+ > git checkout -b main 8cb50e2356aef6ae542fc0fd6656f501c9067747 # timeout=10
+Commit message: "modified:Jenkinsfile"
+ > git rev-list --no-walk 8cb50e2356aef6ae542fc0fd6656f501c9067747 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build Docker Image)
+[Pipeline] sh
++ docker build -t abdelrazekrizk/tomcat-my-app:1.0.0 .
+Sending build context to Docker daemon  209.9kB
+
+Step 1/4 : FROM tomcat:8.5.73-jre8-temurin-focal
+ ---> 7ec084df520c
+Step 2/4 : ADD ./sample.war /usr/local/tomcat/webapps/
+ ---> Using cache
+ ---> f159299047c2
+Step 3/4 : EXPOSE 8080
+ ---> Using cache
+ ---> a1ebefbeab32
+Step 4/4 : CMD ["catalina.sh", "run"]
+ ---> Using cache
+ ---> c3058408ed05
+Successfully built c3058408ed05
+Successfully tagged abdelrazekrizk/tomcat-my-app:1.0.0
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push Docker Image)
+[Pipeline] withCredentials
+Masking supported pattern matches of $dockerHubPwd
+[Pipeline] {
+[Pipeline] sh
+Warning: A secret was passed to "sh" using Groovy String interpolation, which is insecure.
+		 Affected argument(s) used the following variable(s): [dockerHubPwd]
+		 See https://jenkins.io/redirect/groovy-string-interpolation for details.
++ docker login -u abdelrazekrizk -p ****
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] sh
++ docker push abdelrazekrizk/tomcat-my-app:1.0.0
+The push refers to repository [docker.io/abdelrazekrizk/tomcat-my-app]
+6375c0b3a6e7: Preparing
+b085d7d1064c: Preparing
+6790be3baec5: Preparing
+b40039a790f6: Preparing
+d6c75465bf42: Preparing
+1818561c9e6d: Preparing
+fd003fbceaa0: Preparing
+e72da1fc3ecf: Preparing
+9f54eef41275: Preparing
+1818561c9e6d: Waiting
+fd003fbceaa0: Waiting
+e72da1fc3ecf: Waiting
+9f54eef41275: Waiting
+d6c75465bf42: Layer already exists
+6790be3baec5: Layer already exists
+6375c0b3a6e7: Layer already exists
+b085d7d1064c: Layer already exists
+b40039a790f6: Layer already exists
+fd003fbceaa0: Layer already exists
+e72da1fc3ecf: Layer already exists
+1818561c9e6d: Layer already exists
+9f54eef41275: Layer already exists
+1.0.0: digest: sha256:c7735f3c55c5a8626a90bffa11d911f4dac9a2717737578900b578625ba71c2f size: 2206
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run docker Container on Dev Server)
+[Pipeline] sh
++ docker run -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0
+5d29c339cc4ad8c8202bafbce6cded4fc125bb1b2a4d6e1c77c2dfb2253f6e8a
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run kubectl Container on Dev Server)
+[Pipeline] kubeconfig
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // kubeconfig
+[Pipeline] sh
++ kubectl apply -f ./deployment.yaml
+Error from server (Forbidden): <html><head><meta http-equiv='refresh' content='1;url=/login?from=%2Fswagger-2.0.0.pb-v1%3Ftimeout%3D32s'/><script>window.location.replace('/login?from=%2Fswagger-2.0.0.pb-v1%3Ftimeout%3D32s');</script></head><body style='background-color:white; color:white;'>
+
+
+Authentication required
+<!--
+-->
+
+</body></html>
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+ERROR: script returned exit code 1
+Finished: FAILURE
