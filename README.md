@@ -1,5 +1,7 @@
 # my_app
 [![Docker Image CI](https://github.com/abdelrazekrizk/my-app-1/actions/workflows/docker-image.yml/badge.svg)](https://github.com/abdelrazekrizk/my-app-1/actions/workflows/docker-image.yml)
+[![Docker](https://github.com/abdelrazekrizk/my-app-1/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/abdelrazekrizk/my-app-1/actions/workflows/docker-publish.yml)
+
  Virtual Environments
 
                 python3 -m venv .devops
