@@ -12,12 +12,12 @@ node{
         sh 'docker push abdelrazekrizk/udacity-web:1.0.0'
    }
    stage('Run docker Container on Dev Server') {
-        sh 'docker run -p 8000:8000 -d --name my-app abdelrazekrizk/udacity-web:1.0.0'
+        sh 'docker run -p 8000:80 -d --name my-app abdelrazekrizk/udacity-web:1.0.0'
    }
    stage('Run kubectl Container on Dev Server') {
      withCredentials([kubeconfigFile(credentialsId: 'Kubeconfig_Credentials', variable: 'KUBECONFIG')]) {
-        sh 'kubectl apply -f /home/ubuntu/github/my-app-1/Deployment.yaml'
-        sh 'kubectl apply -f /home/ubuntu/github/my-app-1/Service.yaml'
+        sh 'kubectl apply -f Deployment.yaml'
+        sh 'kubectl apply -f Service.yaml'
         } 
 
     }
