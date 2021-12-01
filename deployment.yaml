@@ -1,24 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webapp
+  # Unique key of the Deployment instance
+  name: deployment-example
 spec:
+  # 3 Pods should exist at all times.
   replicas: 3
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   selector:
     matchLabels:
-      app: webapp
+      app: nginx
   template:
     metadata:
       labels:
-        app: webapp
+        # Apply this label to pods and default
+        # the Deployment label selector to this value
+        app: nginx
     spec:
-    containers:
-      - image: abdelrazekrizk/tomcat-my-app:1.0.0
-        name: webapp
-        ports:
-        - containerPort: 8000
+      containers:
+      - name: nginx
+        # Run this image
+        image: abdelrazekrizk/my-app:1.0.0
