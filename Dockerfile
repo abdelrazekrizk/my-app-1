@@ -1,8 +1,8 @@
 FROM php:apache
 
 # Sets the Author field of the generated images
-LABEL NAME="Abdelrazek Rizk" 
-LABEL EMAIL="abdelrazek.rizk@hotmail.com"
+LABEL NAME = "Abdelrazek Rizk" 
+LABEL EMAIL = "abdelrazek.rizk@hotmail.com"
 # a2enmod is a script that enables the specified module "rewrite" within the apache2 configuration
 RUN a2enmod rewrite
 
@@ -13,7 +13,7 @@ RUN apt-get update \
 
 RUN docker-php-ext-install pdo mysqli pdo_mysql zip;
 
-RUN wget https://getcomposer.org/download/2.1.12/composer.phar \
+RUN wget --progress=dot:giga https://getcomposer.org/download/2.1.12/composer.phar \
     && mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer
 
 #copy your files, if you want to copy all use COPY . .

@@ -14,6 +14,9 @@ node{
    stage('Run docker Container on Dev Server') {
         sh 'docker run -p 8000:80 -d --name my-app abdelrazekrizk/udacity-web:1.0.0'
    }
+   stage('lint docker file') {
+        sh 'hadolint Dockerfile'
+   }
    stage('Run kubectl Container on Dev Server') {
      withCredentials([kubeconfigFile(credentialsId: 'Kubeconfig_Credentials', variable: 'KUBECONFIG')]) {
         sh 'kubectl apply -f Deployment.yaml'
