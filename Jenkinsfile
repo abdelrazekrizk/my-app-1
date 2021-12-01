@@ -14,12 +14,13 @@ node{
    stage('Run docker Container on Dev Server') {
         sh 'docker run -p 8787:8080 -d --name my-app abdelrazekrizk/tomcat-my-app:1.0.0'
    }
+
    stage('Run kubectl Container on Dev Server') {
      kubernetesDeploy configs: '/home/ubuntu/.kube', enableConfigSubstitution: false, 
      kubeConfig: [path: ''], kubeconfigId: 'Kubeconfig_Credentials', secretName: '', 
      ssh: [sshCredentialsId: '*', sshServer: ''], textCredentials: [certificateAuthorityData: '', 
-     clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']}
-   }
+     clientCertificateData: '', clientKeyData: '', serverUrl: 'https://']} {
+
         sh 'kubectl apply -f ./Deployment.yaml'
         sh 'kubectl apply -f ./Service.yaml'
    }
